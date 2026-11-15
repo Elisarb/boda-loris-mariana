@@ -71,3 +71,33 @@ if (soundtrackFile) {
 
 
 
+
+const intro = document.querySelector('.intro-cover');
+if (intro) {
+  const opening = intro.querySelector('.opening');
+  const letter = document.querySelector('.letter');
+  const destination = new URL(opening.href);
+  for (const key of ['nombre', 'plazas']) {
+    if (params.has(key)) destination.searchParams.set(key, params.get(key));
+  }
+  opening.href = destination.href;
+
+  opening.addEventListener('click', event => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    if (document.body.classList.contains('opening-now')) return;
+
+    soundtrack.play().catch(() => {});
+    document.body.classList.add('opening-now');
+    const reveal = () => {
+      intro.hidden = true;
+      letter.hidden = false;
+      document.body.classList.remove('cover-page', 'opening-now');
+      const heading = letter.querySelector('h1');
+      heading.tabIndex = -1;
+      heading.focus({ preventScroll: true });
+    };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) reveal();
+    else setTimeout(reveal, 720);
+  });
+}
