@@ -264,3 +264,7 @@ body,.cover-page {
 }
 
 .intro-cover { width:100%; display:grid; justify-items:center; }
+
+.music-inline { position:relative; inset:auto; padding:16px 12px 4px; }
+#music-toggle[aria-pressed="true"] .music-action { font-size:inherit; }
+#music-toggle[aria-pressed="true"] .music-action::after { content:none; }

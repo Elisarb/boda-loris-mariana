@@ -56,8 +56,14 @@ const musicToggle = document.querySelector('#music-toggle');
 if (soundtrackFile) {
   soundtrack.src = soundtrackFile;
   musicToggle.hidden = false;
-  soundtrack.addEventListener('play', () => musicToggle.setAttribute('aria-pressed', 'true'));
-  soundtrack.addEventListener('pause', () => musicToggle.setAttribute('aria-pressed', 'false'));
+  const action = musicToggle.querySelector('.music-action');
+  function syncMusicButton() {
+    musicToggle.setAttribute('aria-pressed', String(!soundtrack.paused));
+    action.textContent = soundtrack.paused ? action.dataset.play : action.dataset.pause;
+  }
+  soundtrack.addEventListener('play', syncMusicButton);
+  soundtrack.addEventListener('pause', syncMusicButton);
+  soundtrack.addEventListener('ended', syncMusicButton);
   musicToggle.addEventListener('click', () => {
     if (soundtrack.paused) soundtrack.play().catch(() => {});
     else soundtrack.pause();
@@ -101,3 +107,4 @@ if (intro) {
     else setTimeout(reveal, 720);
   });
 }
+
