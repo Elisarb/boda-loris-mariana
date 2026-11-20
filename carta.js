@@ -139,9 +139,18 @@ if (lorenzo) {
     if (!reducedMotion.matches) showPose();
   }
 
-  Promise.all(poses.map(image => image.decode()))
+  Promise.all(poses.map(image => new Promise((resolve, reject) => {
+    if (image.complete) {
+      if (image.naturalWidth > 0) resolve();
+      else reject(new Error('Image unavailable'));
+      return;
+    }
+    image.addEventListener('load', resolve, { once: true });
+    image.addEventListener('error', reject, { once: true });
+  })))
     .then(() => {
-      reducedMotion.addEventListener('change', restartLorenzo);
+      if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', restartLorenzo);
+      else reducedMotion.addListener(restartLorenzo);
       restartLorenzo();
     })
     .catch(() => {
@@ -149,3 +158,15 @@ if (lorenzo) {
     });
 }
 
+
+if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const revealObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealing');
+        revealObserver.unobserve(entry.target);
+      }
+    }
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.panel').forEach(panel => revealObserver.observe(panel));
+}
