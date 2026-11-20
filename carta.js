@@ -108,3 +108,43 @@ if (intro) {
   });
 }
 
+
+// Keep one visible image throughout the pose cycle.
+const lorenzo = document.querySelector('.dog-pose');
+if (lorenzo) {
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const poses = ['lorenzo-1.png', 'lorenzo-2.png', 'lorenzo-3.png'].map(source => {
+    const image = new Image();
+    image.src = source;
+    return image;
+  });
+  const durations = [3000, 2000, 2000];
+  let pose = 0;
+  let poseTimer;
+
+  function showPose() {
+    lorenzo.src = poses[pose].src;
+    lorenzo.classList.toggle('is-neutral', pose === 0);
+    poseTimer = setTimeout(() => {
+      pose = (pose + 1) % poses.length;
+      showPose();
+    }, durations[pose]);
+  }
+
+  function restartLorenzo() {
+    clearTimeout(poseTimer);
+    pose = 0;
+    lorenzo.src = poses[0].src;
+    lorenzo.classList.add('is-neutral');
+    if (!reducedMotion.matches) showPose();
+  }
+
+  Promise.all(poses.map(image => image.decode()))
+    .then(() => {
+      reducedMotion.addEventListener('change', restartLorenzo);
+      restartLorenzo();
+    })
+    .catch(() => {
+      // Keep the neutral pose if a variant could not be loaded.
+    });
+}
