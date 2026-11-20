@@ -268,3 +268,25 @@ body,.cover-page {
 .music-inline { position:relative; inset:auto; padding:16px 12px 4px; }
 #music-toggle[aria-pressed="true"] .music-action { font-size:inherit; }
 #music-toggle[aria-pressed="true"] .music-action::after { content:none; }
+
+.lorenzo { width:138px; height:119px; overflow:visible; }
+.lorenzo-poses { position:absolute; inset:0 20px 0 0; }
+.lorenzo .dog-pose {
+  position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+  transform:none; animation:lorenzo-frames 8s linear infinite; opacity:0;
+}
+.lorenzo .pose-1 { animation-delay:0s; }
+.lorenzo .pose-2 { animation-delay:-5.33s; }
+.lorenzo .pose-3 { animation-delay:-2.67s; }
+.lorenzo .lorenzo-tulips {
+  left:auto; right:0; bottom:0; width:43px; animation:sway 7s ease-in-out infinite;
+}
+@keyframes lorenzo-frames {
+  0%,29% { opacity:1; }
+  33.33%,95.66% { opacity:0; }
+  100% { opacity:1; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .lorenzo .dog-pose { opacity:0; }
+  .lorenzo .pose-1 { opacity:1; }
+}
