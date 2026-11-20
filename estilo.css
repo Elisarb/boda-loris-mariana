@@ -269,18 +269,12 @@ body,.cover-page {
   display:block; position:absolute; inset:0; width:100%; height:100%;
   object-fit:contain; opacity:1; transform:none; animation:none;
 }
-.lorenzo .dog-pose.is-neutral {
-  transform-origin:50% 95%;
-  animation:lorenzo-rest 1.6s ease-in-out infinite;
-}
+
 .lorenzo .lorenzo-tulips {
   position:absolute; left:auto; right:0; bottom:0; width:43px;
   animation:sway 7s ease-in-out infinite;
 }
-@keyframes lorenzo-rest {
-  0%,100% { transform:scaleY(1); }
-  50% { transform:scaleY(1.004); }
-}
+
 .flight img { animation:flight-return 9s linear infinite; }
 @keyframes flight-return {
   0% { left:0; transform:translate(0,7px) scaleX(1) rotate(-4deg); }
@@ -294,4 +288,5 @@ body,.cover-page {
 
   .flight img { left:calc(50% - var(--plane-width)/2); transform:none; }
 }
+
 

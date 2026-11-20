@@ -1,4 +1,4 @@
-const wedding = Date.parse(weddingConfig.date);
+﻿const wedding = Date.parse(weddingConfig.date);
 const countdown = document.querySelector('#countdown');
 const units = countdown.dataset.units.split('|');
 
@@ -124,7 +124,7 @@ if (lorenzo) {
 
   function showPose() {
     lorenzo.src = poses[pose].src;
-    lorenzo.classList.toggle('is-neutral', pose === 0);
+
     poseTimer = setTimeout(() => {
       pose = (pose + 1) % poses.length;
       showPose();
@@ -135,7 +135,7 @@ if (lorenzo) {
     clearTimeout(poseTimer);
     pose = 0;
     lorenzo.src = poses[0].src;
-    lorenzo.classList.add('is-neutral');
+
     if (!reducedMotion.matches) showPose();
   }
 
@@ -148,3 +148,4 @@ if (lorenzo) {
       // Keep the neutral pose if a variant could not be loaded.
     });
 }
+
